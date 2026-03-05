@@ -336,22 +336,6 @@ for (const key in user) {
 //  2.26.2026
 // ===================================================================
 
-// function
-
-
-
-// let handleClick = () => {};
-
-// (function () {});
-
-
-
-// function outer (){
-//     let count=0;
-//     return function 
-// }
-
-
 // Challenge 1
 function greet(name) {
     return "Hello," +name + "!";
@@ -445,13 +429,306 @@ function createCounter(start){
         }
     };
 }
+console.log(createCounter(0))
 
 // Challenge 7
 function orderFood(){
-    let name
+    const  name=prompt("Enter your name: ");
+    const food=prompt("Enter food name:");
+    const address=prompt("enter ur address:" );
+
+    console.log('Dear ${name}, Your food is ready, ${food} will be delivered in 15 minutes to your address ${address}')
+
+}
+console.log(orderFood());
+
+// Challenge 8
+function lazyadder(a){
+    return function(b) {
+       return a+b;
+    }
+}
+const add=lazyadder(6)
+console.log(add(5));
+console.log(add(2))
+
+// Assignment
+// 1
+function calculateTotal(price, quantity) {
+    let total = price * quantity;
+
+    if (quantity >= 5) {
+        total *= 0.8; // 20% discount
+    } else if (quantity >= 3) {
+        total *= 0.9; // 10% discount
+    }
+
+    return total;
 }
 
+console.log(calculateTotal(100, 3)); 
 
-// hhjhjhj
+// 2
+function checkPassword(password) {
+    let strength = 0;
+
+    if (password.length >= 8) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+    if (strength <= 2) return "Weak";
+    if (strength === 3) return "Medium";
+    return "Strong";
+}
+
+console.log(checkPassword("Hello123!"));
+
+// 3
+function withdraw(amount) {
+    if (amount % 10 !== 0) {
+        return "Error: Amount must be multiple of 10";
+    }
+
+    let bills = {};
+
+    bills["100"] = Math.floor(amount / 100);
+    amount %= 100;
+
+    bills["50"] = Math.floor(amount / 50);
+    amount %= 50;
+
+    bills["20"] = Math.floor(amount / 20);
+    amount %= 20;
+
+    bills["10"] = Math.floor(amount / 10);
+
+    return bills;
+}
+
+console.log(withdraw(130));
+
+// 4
+function trafficLight() {
+    console.log("Red");
+
+    setTimeout(() => {
+        console.log("Green");
+
+        setTimeout(() => {
+            console.log("Yellow");
+
+            setTimeout(() => {
+                trafficLight(); // restart cycle
+            }, 2000);
+
+        }, 3000);
+
+    }, 5000);
+}
+
+trafficLight();
+
+// 5
+function checkPassword(password) {
+
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const isLongEnough = password.length >= 8;
+
+    let score = 0;
+
+    if (isLongEnough) score++;
+    if (hasUppercase) score++;
+    if (hasNumber) score++;
+    if (hasSpecial) score++;
+
+    if (score <= 2) return "Weak";
+    if (score === 3) return "Medium";
+    if (score === 4) return "Strong";
+}
+
+// 6
+function bankAccount(initialBalance) {
+    let balance = initialBalance; // private variable
+
+    return {
+        deposit(amount) {
+            if (amount > 0) {
+                balance += amount;
+                console.log(`Deposited: $${amount}`);
+            }
+        },
+
+        withdraw(amount) {
+            if (amount <= balance) {
+                balance -= amount;
+                console.log(`Withdrawn: $${amount}`);
+            } else {
+                console.log("Insufficient funds");
+            }
+        },
+
+        viewBalance() {
+            console.log(`Current Balance: $${balance}`);
+        }
+    };
+}
+const myAccount = bankAccount(1000);
+myAccount.deposit(500);
+myAccount.withdraw(200);
+myAccount.viewBalance();
+
+// 7
+function createUser(role) {
+
+    const permissions = {
+        admin: ["add", "edit", "delete", "view"],
+        editor: ["edit", "view"],
+        viewer: ["view"]
+    };
+
+    return {
+        role,
+        can(action) {
+            if (permissions[role].includes(action)) {
+                console.log(`Allowed: ${action}`);
+            } else {
+                console.log(`Access denied for ${action}`);
+            }
+        }
+    };
+}
+const adminUser = createUser("admin");
+adminUser.can("delete"); // allowed
+adminUser.can("edit");   // allowed
+
+const viewerUser = createUser("viewer");
+viewerUser.can("delete"); // denied
+
+// 8
+function calculateTax(income) {
+    if (income < 10000) {
+        return 0;
+    } else if (income <= 50000) {
+        return income * 0.10;
+    } else {
+        return income * 0.20;
+    }
+}
+console.log(calculateTax(8000));   // 0
+console.log(calculateTax(30000));  // 3000
+console.log(calculateTax(70000));  // 14000
 
 
+
+// 9
+function debounce(fn, delay) {
+    let timeoutId;
+
+    return function (...args) {
+        clearTimeout(timeoutId);
+
+        timeoutId = setTimeout(() => {
+            fn.apply(this, args);
+        }, delay);
+    };
+}
+const search = debounce(() => {
+    console.log("Searching...");
+}, 1000);
+
+search();
+search();
+search(); // Only runs once after 1 second
+
+
+
+
+// 10
+function throttle(fn, interval) {
+    let lastTime = 0;
+
+    return function (...args) {
+        const now = Date.now();
+
+        if (now - lastTime >= interval) {
+            lastTime = now;
+            fn.apply(this, args);
+        }
+    };
+}
+
+// 11
+function taskScheduler() {
+    let tasks = [];
+
+    return {
+        schedule(task, delay) {
+            const id = setTimeout(() => {
+                task();
+                tasks = tasks.filter(t => t !== id);
+            }, delay);
+
+            tasks.push(id);
+        },
+
+        cancelAll() {
+            tasks.forEach(id => clearTimeout(id));
+            tasks = [];
+            console.log("All tasks cancelled");
+        }
+    };
+}
+const scheduler = taskScheduler();
+
+scheduler.schedule(() => console.log("Task 1"), 2000);
+scheduler.schedule(() => console.log("Task 2"), 4000);
+
+// scheduler.cancelAll(); // cancels everything
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ==========================================================================
+let languages1= ['js','c++','ruby']
+console.log(languages)
+
+languages1.push('go')
