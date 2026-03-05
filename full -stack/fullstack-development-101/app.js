@@ -689,7 +689,130 @@ scheduler.schedule(() => console.log("Task 2"), 4000);
 // scheduler.cancelAll(); // cancels everything
 
 
+// LECTURE 6
+// 1
+function first(arr, n) {
+    if (arr.length === 0) 
+        return [];
 
+    if (n === undefined) 
+        return arr[0];
+
+    if (n < 0) 
+        return n;
+
+    return arr.slice(0, n);
+}
+
+// 2
+function last(arr, n) {
+    if (arr.length === 0) 
+        return [];
+
+    if (n === undefined) 
+        return arr[arr.length - 1];
+
+    return arr.slice(-n);
+}
+
+// 3
+let myColor = ["Red", "Green", "White", "Black"];
+
+let result = myColor.join(",");
+console.log(result);
+
+// 4
+function insertDashes(num) {
+    return num.toString().split("").join("-");
+}
+
+console.log(insertDashes(25468)); 
+
+// 5
+var arr1 = [-3, 8, 7, 6, 5, -4, 3, 2, 1];
+
+arr1.sort(function(a, b) {
+    return a - b;
+});
+
+console.log(arr1);
+
+// 6
+function mostFrequent(arr) {
+    let counter = {};
+    let maxCount = 0;
+    let mostFrequentItem;
+
+    for (let item of arr) {
+        counter[item] = (counter[item] || 0) + 1;
+
+        if (counter[item] > maxCount) {
+            maxCount = counter[item];
+            mostFrequentItem = item;
+        }
+    }
+
+    return `${mostFrequentItem} ( ${maxCount} times )`;
+}
+
+var arr1 = [3,'a','a','a',2,3,'a',3,'a',2,4,9,3];
+console.log(mostFrequent(arr1));
+
+// 7
+function swapCase(str) {
+    let result = "";
+
+    for (let char of str) {
+        if (char === char.toUpperCase()) {
+            result += char.toLowerCase();
+        } else {
+            result += char.toUpperCase();
+        }
+    }
+
+    return result;
+}
+
+console.log(swapCase("The Quick Brown Fox"));
+
+// 8
+function getOrdinal(n) {
+    if (n % 100 >= 11 && n % 100 <= 13) return n + "th";
+
+    switch (n % 10) {
+        case 1: return n + "st";
+        case 2: return n + "nd";
+        case 3: return n + "rd";
+        default: return n + "th";
+    }
+}
+
+let color = ["Blue ", "Green", "Red", "Orange", "Violet", "Indigo", "Yellow "];
+
+for (let i = 0; i < color.length; i++) {
+    console.log(`${getOrdinal(i + 1)} choice is ${color[i].trim()}.`);
+}
+
+
+// 9
+function sumArrays(arr1, arr2) {
+    let maxLength = Math.max(arr1.length, arr2.length);
+    let result = [];
+
+    for (let i = 0; i < maxLength; i++) {
+        let val1 = arr1[i] || 0;
+        let val2 = arr2[i] || 0;
+
+        result.push(val1 + val2);
+    }
+
+    return result;
+}
+
+let array1 = [1,0,2,3,4];
+let array2 = [3,5,6,7,8,13];
+
+console.log(sumArrays(array1, array2));
 
 
 
@@ -728,7 +851,3 @@ scheduler.schedule(() => console.log("Task 2"), 4000);
 
 
 // ==========================================================================
-let languages1= ['js','c++','ruby']
-console.log(languages)
-
-languages1.push('go')
